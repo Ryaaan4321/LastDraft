@@ -143,20 +143,6 @@ export default function PaymentPage() {
                             console.log("inside tht success of the verify ");
                             toast.success("Payment successful!")
                             if (paymentType === "download") {
-                                // window.open(`/api/resume/download?id=${encodeURIComponent(resumeId)}`, "_blank")
-                                // const downloadUrl = new URL(`/api/resume/download/`, window.location.origin)
-                                // downloadUrl.searchParams.append('id', resumeId)
-                                // window.open(downloadUrl.toString(), "_blank")
-                                // const downloadUrl = `/api/resume/download?id=${encodeURIComponent(resumeId)}`
-                                // console.log("Opening download URL:", downloadUrl)
-                                // window.open(downloadUrl, "_blank")
-                                // window.location.href = `/api/resume/download?id=${encodeURIComponent(resumeId)}`
-
-                                // Solution 2: Alternative approach with timeout
-                                // setTimeout(() => {
-                                //     const downloadUrl = `/api/resume/download?id=${encodeURIComponent(resumeId)}`
-                                //     window.open(downloadUrl, "_blank", "noopener,noreferrer")
-                                // }, 500)
                                 if (paymentType === "download") {
                                     window.open(`/api/resume/download/${resumeId}`, "_blank")
                                 }
