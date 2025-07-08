@@ -12,14 +12,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model Profile {
-  id         String   @id @default(uuid()) @db.Uuid
-  email      String    @unique
-  password   String
-  fullName   String?  @map("full_name")
-  avatarUrl  String?  @map("avatar_url")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  password  String
+  fullName  String?   @map("full_name")
+  avatarUrl String?   @map("avatar_url")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   resumes   Resume[]
   payments  Payment[]
   aiUsage   AiUsage[]
@@ -27,36 +28,47 @@ model Profile {
   @@map("profiles")
 }
 
+model Admin {
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  password  String
+  fullName  String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+}
+
+
+
 model Resume {
-  id          String   @id @default(uuid()) @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  title       String   @default("Untitled Resume")
-  content     Json     @default("{}")
-  templateId  String   @default("modern") @map("template_id")
-  isPublished Boolean  @default(false) @map("is_published")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  user     Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payments Payment[]
-  aiUsage  AiUsage[]
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  title       String    @default("Untitled Resume")
+  content     Json      @default("{}")
+  templateId  String    @default("modern") @map("template_id")
+  isPublished Boolean   @default(false) @map("is_published")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  user        Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments    Payment[]
+  aiUsage     AiUsage[]
 
   @@map("resumes")
 }
 
 model Payment {
-  id               String      @id @default(uuid()) @db.Uuid
-  userId           String      @map("user_id") @db.Uuid
-  resumeId         String?     @map("resume_id") @db.Uuid
-  paymentType      PaymentType @map("payment_type")
-  amount           Int 
-  currency         String      @default("INR")
-  razorpayOrderId  String?     @map("razorpay_order_id") @unique
-  razorpayPaymentId String?    @map("razorpay_payment_id")
-  status           PaymentStatus @default(PENDING)
-  createdAt        DateTime    @default(now()) @map("created_at")
-  updatedAt        DateTime    @updatedAt @map("updated_at")
-  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resume Resume? @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  id                String        @id @default(uuid()) @db.Uuid
+  userId            String        @map("user_id") @db.Uuid
+  resumeId          String?       @map("resume_id") @db.Uuid
+  paymentType       PaymentType   @map("payment_type")
+  amount            Int
+  currency          String        @default("INR")
+  razorpayOrderId   String?       @unique @map("razorpay_order_id")
+  razorpayPaymentId String?       @map("razorpay_payment_id")
+  status            PaymentStatus @default(PENDING)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+  user              Profile       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume            Resume?       @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("payments")
 }
@@ -67,17 +79,17 @@ model AiUsage {
   resumeId   String    @map("resume_id") @db.Uuid
   usageType  UsageType @map("usage_type")
   tokensUsed Int       @default(0) @map("tokens_used")
-  cost       Int       @default(0) 
+  cost       Int       @default(0)
   createdAt  DateTime  @default(now()) @map("created_at")
-  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resume Resume  @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  user       Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume     Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("ai_usage")
 }
 
 enum PaymentType {
-  DOWNLOAD    @map("download")
-  AI_BULLETS  @map("ai_bullets")
+  DOWNLOAD   @map("download")
+  AI_BULLETS @map("ai_bullets")
 }
 
 enum PaymentStatus {

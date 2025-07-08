@@ -11,21 +11,21 @@ export async function POST(request: NextRequest) {
         const { jobTitle, company, description, resumeId } = await request.json()
         const token = cookieStore.get("token")?.value
         if (!token || !process.env.SECRET_KEY) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+            return NextResponse.json({ err: "Unauthorized" }, { status: 401 })
         }
         let user: jwt.JwtPayload;
         try {
             const decoded = jwt.verify(token, process.env.SECRET_KEY!)
             if (typeof decoded === "string") {
-                return NextResponse.json({ error: "Invalid token payload" }, { status: 401 })
+                return NextResponse.json({ err: "Invalid token payload" }, { status: 401 })
             }
             user=decoded
         } catch {
-            return NextResponse.json({ error: "Invalid token" }, { status: 401 })
+            return NextResponse.json({ err: "Invalid token" }, { status: 401 })
         }
 
         if (!user) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+            return NextResponse.json({ err: "Unauthorized" }, { status: 401 })
         }
         console.log()
         const payment = await client?.payment.findFirst({
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         })
 
         if (!payment) {
-            return NextResponse.json({ error: "Payment required for AI features" }, { status: 402 })
+            return NextResponse.json({ err: "Payment required for AI features" }, { status: 402 })
         }
 
         // Generate bullet points using AI
@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
             },
         })
         return NextResponse.json({ success: true, bulletPoints: text })
-    } catch (error) {
-        console.error("AI bullet points error:", error)
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    } catch (err:any) {
+        console.error("AI bullet points err:", err)
+        return NextResponse.json({ err: "Internal server err" }, { status: 500 })
     }
 }

@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value
         if (!token || !process.env.SECRET_KEY) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+            return NextResponse.json({ err: "Unauthorized" }, { status: 401 })
         }
         let user: jwt.JwtPayload;
         try {
