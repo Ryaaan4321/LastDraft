@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
+import { boolean } from "zod";
 interface PaymentTypeGroup {
     paymentType: "DOWNLOAD" | "AI_BULLETS";
     _sum: {
@@ -24,6 +25,39 @@ interface Payment {
     paymentType: string
     status: string
     user: User
+}
+
+interface UseAdminUsersResult {
+    users: User[]
+    loading: boolean
+}
+interface Resume {
+    id: string
+    title: string
+}
+
+interface AiUser {
+    id: string
+    paymentType: string
+    user: User
+    resume: Resume
+}
+interface DownloadUser {
+    id: string
+    paymentType: string
+    user: User
+    resume: Resume
+}
+
+interface UseAiUsersResult {
+    aiUsers: AiUser[]
+    loading: boolean
+    error: string | null
+}
+interface UseDownloadResult {
+    downloadUsers: DownloadUser[]
+    loading: boolean
+    error: string | null
 }
 
 export function useWholeTransaction() {
@@ -106,3 +140,93 @@ export function useAdminPayments() {
 
     return { payments, loading, error }
 }
+export function useAdminUsers(): UseAdminUsersResult {
+    const [users, setUsers] = useState<User[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch('/api/admin/users')
+                const data = await res.json()
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.msg || 'its us not you')
+                }
+
+                setUsers(data.data)
+            } catch (err: any) {
+                setUsers([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchUsers()
+    }, [])
+
+    return { users, loading }
+}
+
+
+export function useAiUsers(): UseAiUsersResult {
+    const [aiUsers, setAiUsers] = useState<AiUser[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchAiUsers = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch('/api/admin/aifeature')
+                const data = await res.json()
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.msg || 'Failed to fetch AI users')
+                }
+
+                setAiUsers(data.aiusers)
+                setError(null)
+            } catch (err: any) {
+                setError(err.message || 'Unknown error')
+                setAiUsers([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchAiUsers()
+    }, [])
+
+    return { aiUsers, loading, error }
+}
+export function useDownLoadFeatures(): UseDownloadResult {
+    const [downloadUsers, setDownloadUsers] = useState<DownloadUser[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null)
+    useEffect(() => {
+        const fetchAiUsers = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch('/api/admin/downloadfeature')
+                const data = await res.json()
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.msg || 'Failed to fetch AI users')
+                }
+
+                setDownloadUsers(data.aiusers)
+                setError(null)
+            } catch (err: any) {
+                setError(err.message || 'Unknown error')
+                setDownloadUsers([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchAiUsers()
+    }, [])
+    return {downloadUsers,loading,error}
+}
+
