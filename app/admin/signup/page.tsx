@@ -22,7 +22,7 @@ export default function Page() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("/api/signup", {
+            const response = await fetch("/api/admin/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password, fullName }),
@@ -33,7 +33,7 @@ export default function Page() {
                 throw new Error(data.msg || "Signup failed");
             }
             toast.success("Signup successful!");
-            router.push("/");
+            router.push("/admin");
         } catch (error: any) {
             toast.error(error.message || "Signup failed");
         } finally {
@@ -49,6 +49,7 @@ export default function Page() {
                         <Link href='/'>
                         <span className="text-2xl font-bold text-[#FA6600] underline cursror-pointer">LastDraft</span>
                     </Link></h1>
+                    <Label className="text-center flex justify-center ">Admin Side</Label>
                 </div>
 
                 <div className="space-y-4">
@@ -59,7 +60,7 @@ export default function Page() {
                             name="fullName"
                             type="text"
                             required
-                            placeholder="John Doe"
+                            placeholder="you"
                             onChange={(e) => setFullName(e.target.value)}
                         />
                     </div>
@@ -108,7 +109,7 @@ export default function Page() {
 
                 <p className="text-sm text-center text-gray-600">
                     Already have an account?{" "}
-                    <Link href="/auth/signin" className="text-[#FA6600] font-semibold hover:underline">
+                    <Link href="/admin/signin" className="text-[#FA6600] font-semibold hover:underline">
                         Sign in
                     </Link>
                 </p>

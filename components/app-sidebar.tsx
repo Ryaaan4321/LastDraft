@@ -17,6 +17,9 @@ import {
   IconSearch,
   IconSettings,
   IconUsers,
+  IconDownload,
+  IconAi,
+  IconMoneybag
 } from "@tabler/icons-react"
 
 import { NavDocuments } from "@/components/nav-documents"
@@ -33,6 +36,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { useCurrentAdmin } from "@/hooks/use-admin"
 
 const data = {
   user: {
@@ -44,17 +48,17 @@ const data = {
     {
       title: "Users",
       url: "/admin/users",
-      icon: IconListDetails,
+      icon: IconUsers,
     },
     {
       title: "AiFeatures",
       url: "/admin/aiusers",
-      icon: IconUsers,
+      icon: IconAi,
     },
     {
       title: "DownloadFeatures",
       url: "/admin/downloadusers",
-      icon: IconUsers,
+      icon: IconDownload,
     },
   ],
   navClouds: [
@@ -108,26 +112,39 @@ const data = {
   payment: [
     {
       name: "Paid Users",
-      url: "#",
-      icon: IconDatabase,
+      url: "/admin/paidusers",
+      icon: IconMoneybag,
     },
 
     {
       name: "Payment Status",
-      url: "#",
+      url: "/admin/paymentstatus",
       icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  return (
-    <Sidebar collapsible="offcanvas" {...props}>
+  const { admin, loading, error } = useCurrentAdmin();
+  if (loading) {
+    return (
+      <span>admin loading...</span>
+    )
+  }
+  if(!admin){
+    return (
+      <span>loading</span>
+    )
+  }
+  const data1 = {
+    user: {
+      name: admin?.fullname,
+      email: admin?.email,
+      avatar: "/avatars/shadcn.jpg",
+    },
+  }
+    return(
+    <Sidebar collapsible = "offcanvas" { ...props }>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -149,8 +166,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavDocuments items={data.payment} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data1.user} />
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   )
 }

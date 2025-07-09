@@ -59,6 +59,30 @@ interface UseDownloadResult {
     loading: boolean
     error: string | null
 }
+interface PaidUser {
+    id: string
+    email: string
+    paymentTypes: ("DOWNLOAD" | "AI_BULLETS")[]
+}
+
+interface UsePaidUsersResult {
+    paidUsers: PaidUser[]
+    loading: boolean
+    error: string | null
+}
+
+interface Admin {
+    id: string
+    email: string
+    role: string
+    fullname:string
+}
+
+interface UseCurrentAdminResult {
+    admin: Admin | null
+    loading: boolean
+    error: string | null
+}
 
 export function useWholeTransaction() {
     const [totalT, setTotalT] = useState<number>(0);
@@ -85,7 +109,6 @@ export function useWholeTransaction() {
     }, [])
     return { totalT, loadingone, errOne }
 }
-
 export function useTransactionBreakdown() {
     const [dataTwo, setDataTwo] = useState<PaymentTypeGroup[]>([]);
     const [loadingTwo, setLoadingTwo] = useState<boolean>(true);
@@ -167,8 +190,6 @@ export function useAdminUsers(): UseAdminUsersResult {
 
     return { users, loading }
 }
-
-
 export function useAiUsers(): UseAiUsersResult {
     const [aiUsers, setAiUsers] = useState<AiUser[]>([])
     const [loading, setLoading] = useState<boolean>(true)
@@ -227,6 +248,66 @@ export function useDownLoadFeatures(): UseDownloadResult {
 
         fetchAiUsers()
     }, [])
-    return {downloadUsers,loading,error}
+    return { downloadUsers, loading, error }
+}
+export function usePaidUsers(): UsePaidUsersResult {
+    const [paidUsers, setPaidUsers] = useState<PaidUser[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchPaidUsers = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch("/api/admin/paidusers")
+                const data = await res.json()
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.msg || "Failed to fetch paid users")
+                }
+
+                setPaidUsers(data.paidusers)
+                setError(null)
+            } catch (err: any) {
+                setError(err.message || "Unknown error")
+                setPaidUsers([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchPaidUsers()
+    }, [])
+
+    return { paidUsers, loading, error }
 }
 
+export function useCurrentAdmin(): UseCurrentAdminResult {
+    const [admin, setAdmin] = useState<Admin | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch("/api/admin/getadmin")
+                const data = await res.json()
+                if (!res.ok) {
+                    throw new Error(data.msg || "Unauthorized")
+                }
+                setAdmin(data.user)
+                setError(null)
+            } catch (err: any) {
+                setError(err.message || "Something went wrong")
+                setAdmin(null)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchUser()
+    }, [])
+
+    return { admin, loading, error }
+}

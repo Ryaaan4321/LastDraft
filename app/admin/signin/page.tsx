@@ -21,7 +21,7 @@ export default function Page() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("/api/signin", {
+            const response = await fetch("/api/admin/signin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -35,7 +35,7 @@ export default function Page() {
             }
 
             toast.success("Signin successful!");
-            router.push("/");
+            router.push("/admin");
         } catch (error: any) {
             toast.error(error.message || "Signin failed");
         } finally {
@@ -53,8 +53,8 @@ export default function Page() {
                     <Link href='/'>
                         <span className="text-2xl font-bold text-[#FA6600] underline cursror-pointer">LastDraft</span>
                     </Link>
-
                 </h3>
+                <Label className="text-center flex justify-center ">Admin Side</Label>
                 <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -95,7 +95,7 @@ export default function Page() {
 
                 <p className="text-sm text-center text-gray-600">
                     Don’t have an account?{" "}
-                    <Link href="/auth/signup" className="text-[#FA6600] font-semibold hover:underline">
+                    <Link href="/admin/signup" className="text-[#FA6600] font-semibold hover:underline">
                         Sign up
                     </Link>
                 </p>
