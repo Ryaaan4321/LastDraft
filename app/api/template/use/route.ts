@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     if (!template) {
       return NextResponse.json({ error: "Template not found" }, { status: 404 })
     }
-
+    console.log("decoded id = ",decoded.id)
     const newResume = await client.resume.create({
       data: {
         userId: decoded.id,

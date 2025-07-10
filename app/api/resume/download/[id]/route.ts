@@ -6,17 +6,21 @@ import client from '@/app/db'
 import { PaymentType, PaymentStatus } from "@prisma/client"
 
 console.log("download route got called ")
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
+    const resumeId = params.id;
+    
+    if (!resumeId) {
+      return NextResponse.json({ error: "Resume ID is required" }, { status: 400 });
+    }
+
+    // Rest of your existing code remains exactly the same...
     let user: jwt.JwtPayload;
     const cookieStore = cookies();
-    const token = (await cookieStore).get("token")?.value
-    const resumeId = params.id
-    console.log("Extracted resumeId:", resumeId)
-    // console.log("payment from the route download id = ", payment);
-    if (!resumeId) {
-      return NextResponse.json({ error: "Resume ID is required" }, { status: 400 })
-    }
+    const token = (await cookieStore).get("token")?.value;
     if (!token || !process.env.SECRET_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }

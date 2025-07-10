@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from 'jsonwebtoken';
 import { cookies } from "next/headers";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const cookiestore = await cookies();

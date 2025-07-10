@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from "next/headers";
 
 console.log("admin signin route got called")
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         const cookiestore = await cookies();
         const body = await req.json();
