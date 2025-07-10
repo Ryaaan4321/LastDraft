@@ -161,7 +161,7 @@ export default function AIBulletsPage() {
                                             Copy to Clipboard
                                         </Button>
                                         <Link href={`/resume/${resumeId}`}>
-                                            <Button className="cursor-pointer">Use in Resume</Button>
+                                            <Button className="cursor-pointer">Back to Resume</Button>
                                         </Link>
                                     </div>
                                 </div>

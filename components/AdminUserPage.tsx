@@ -32,7 +32,7 @@ export default function AdminUsersPage() {
                     <CardContent className="flex items-center space-x-4 p-0">
                         <Avatar>
                             <AvatarImage src={user.image || ''} />
-                            <AvatarFallback>{user.name?.charAt(0) || '?'}</AvatarFallback>
+                            <AvatarFallback>LD</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="font-medium text-gray-900">{user.name}</p>
