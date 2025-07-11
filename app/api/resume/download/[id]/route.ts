@@ -16,8 +16,6 @@ export async function GET(
     if (!resumeId) {
       return NextResponse.json({ error: "Resume ID is required" }, { status: 400 });
     }
-
-    // Rest of your existing code remains exactly the same...
     let user: jwt.JwtPayload;
     const cookieStore = cookies();
     const token = (await cookieStore).get("token")?.value;
@@ -37,7 +35,6 @@ export async function GET(
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
-    // Check if user has paid for download
     const payment = await client.payment.findFirst({
       where: {
         userId: user.id,
@@ -46,8 +43,6 @@ export async function GET(
         status: "COMPLETED"
       }
     });
-
-
     if (!payment) {
       return NextResponse.json({ error: "Payment required" }, { status: 402 })
     }
@@ -72,12 +67,8 @@ export async function GET(
     if (!resume) {
       return NextResponse.json({ error: "Resume not found" }, { status: 404 })
     }
-
-    // Generate PDF using Puppeteer
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-
-    // Create HTML content for PDF
     const htmlContent = generateResumeHTML(resume)
 
     await page.setContent(htmlContent)

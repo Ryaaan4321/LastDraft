@@ -23,7 +23,7 @@ export default function HomePage() {
               <Link href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
                 Features
               </Link>
-              <Link href="#templates" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
                 Templates
               </Link>
               <Link href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
@@ -64,16 +64,16 @@ export default function HomePage() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link href='/templates'> 
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-gray-300 cursor-pointer text-gray-700 hover:bg-gray-50 bg-transparent"
-            >
-              <Eye className="mr-2 h-5 w-5" />
-              View Templates
-            </Button></Link>
-           
+            <Link href='/templates'>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-gray-300 cursor-pointer text-gray-700 hover:bg-gray-50 bg-transparent"
+              >
+                <Eye className="mr-2 h-5 w-5" />
+                View Templates
+              </Button></Link>
+
           </div>
           <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
             <div className="flex items-center">
@@ -187,10 +187,12 @@ export default function HomePage() {
           <p className="text-xl text-gray-300 mb-8">
             Join thousands of professionals who have successfully landed their dream jobs with our resume builder.
           </p>
-          <Button size="lg" className="bg-[#FA6600] hover:bg-[#E55A00] text-white px-8">
-            Start Building for Free
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <Link href={userData ? "/resume/new" : "/auth/signin"}>
+            <Button size="lg" className="bg-[#FA6600] hover:bg-[#E55A00] text-white px-8 cursor-pointer">
+              Start Building for Free
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 

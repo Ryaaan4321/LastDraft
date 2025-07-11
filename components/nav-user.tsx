@@ -83,8 +83,12 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
+            <DropdownMenuItem onClick={async () => {
+              await fetch("/api/admin/logout", { method: "POST" });
+              window.location.href = "/admin/signin";
+            }}
+              className="cursor-pointer">
+              <IconLogout className="text-red-800" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

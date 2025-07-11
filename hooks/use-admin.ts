@@ -16,6 +16,7 @@ interface ApiResponse {
 interface User {
     id: string
     email: string
+    fullName:string
 }
 
 interface Payment {

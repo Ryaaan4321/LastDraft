@@ -29,6 +29,7 @@ export const config = {
         "/api/admin/totalearnings",
         "/api/admin/transactionbreakdown",
         "/api/admin/getcurrentuser",
+        "/api/admin/logout",
         "/api/admin/admin",
         "/admin/aiusers",
         "/admin/downloadusers",

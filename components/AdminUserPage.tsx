@@ -1,46 +1,62 @@
 "use client"
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 import { useAdminUsers } from '@/hooks/use-admin'
-import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-
 export default function AdminUsersPage() {
     const { users, loading } = useAdminUsers()
 
     if (loading) {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                {Array.from({ length: 6 }).map((_, i) => (
-                    <Card key={i} className="p-4 space-y-4">
-                        <div className="flex items-center space-x-4">
-                            <Skeleton className="w-12 h-12 rounded-full" />
-                            <div className="space-y-2">
-                                <Skeleton className="h-4 w-32" />
-                                <Skeleton className="h-3 w-24" />
-                            </div>
-                        </div>
-                    </Card>
-                ))}
+            <div className="p-4">
+                <Skeleton className="h-8 w-48 mb-4" />
+                <div className="space-y-2">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <Skeleton key={i} className="h-10 w-full" />
+                    ))}
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            {users.map((user:any) => (
-                <Card key={user.id} className="p-4 hover:shadow-md transition duration-200">
-                    <CardContent className="flex items-center space-x-4 p-0">
-                        <Avatar>
-                            <AvatarImage src={user.image || ''} />
-                            <AvatarFallback>LD</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="font-medium text-gray-900">{user.name}</p>
-                            <p className="text-sm text-gray-500">{user.email}</p>
-                        </div>
-                    </CardContent>
-                </Card>
-            ))}
+        <div className="p-4">
+            <h2 className="text-2xl font-semibold mb-4">All Users</h2>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[80px]">Avatar</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead className="text-right">Joined At</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.map((user: any) => (
+                        <TableRow key={user.id}>
+                            <TableCell>
+                                <Avatar className="h-9 w-9">
+                                    <AvatarImage src={user.image} alt="LD" />
+                                    <AvatarFallback>{user.fullName?.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                </Avatar>
+                            </TableCell>
+                            <TableCell className="font-medium">{user.fullName || "N/A"}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell className="text-right">
+                                {new Date(user.createdAt).toLocaleDateString()}
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     )
 }
