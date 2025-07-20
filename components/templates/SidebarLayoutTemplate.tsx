@@ -34,6 +34,46 @@ export default function SidebarLayoutTemplate({ content }: { content: any }) {
                             </ul>
                         </section>
                     )}
+                    {content.extras && (content.extras.hobbies || content.extras.achievements || content.extras.certifications) && (
+                        <section>
+                            <h2 className="text-sm font-bold text-black uppercase tracking-wide mb-4 border-b border-black pb-1">
+                                Extras
+                            </h2>
+
+                            {/* Achievements */}
+                            {content.extras.achievements && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Achievements</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.achievements }}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Certifications */}
+                            {content.extras.certifications && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Certifications</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.certifications }}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Hobbies */}
+                            {content.extras.hobbies && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Hobbies</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.hobbies }}
+                                    />
+                                </div>
+                            )}
+                        </section>
+                    )}
 
 
                     {/* Additional sections can be added here */}

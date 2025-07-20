@@ -73,6 +73,30 @@ ${content.skills?.length ? `
     `).join("")}
   </div>
 ` : ""}
+        ${(content.extras?.achievements || content.extras?.certifications || content.extras?.hobbies) ? `
+  <h3 style="border-bottom: 2px solid; padding-bottom: 4px; margin-top: 20px;">Extras</h3>
+
+  ${content.extras?.achievements ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Achievements</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.achievements}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.certifications ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Certifications</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.certifications}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.hobbies ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Hobbies</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.hobbies}</div>
+    </div>
+  ` : ""}
+` : ""}
 
 
             ${content.links && Object.keys(content.links).length ? `

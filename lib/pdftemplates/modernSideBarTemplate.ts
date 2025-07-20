@@ -50,6 +50,30 @@ export function generateSidebarHTML(resume: any): string {
               <div style="font-size: 11px; text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">${skill.trim()}</div>
             `).join("")}
           ` : ""}
+                  ${(content.extras?.achievements || content.extras?.certifications || content.extras?.hobbies) ? `
+  <h3 style="color: #F97316; border-bottom: 2px solid #F97316; padding-bottom: 4px; margin-top: 20px;">Extras</h3>
+
+  ${content.extras?.achievements ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Achievements</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.achievements}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.certifications ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Certifications</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.certifications}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.hobbies ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Hobbies</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.hobbies}</div>
+    </div>
+  ` : ""}
+` : ""}
 
           ${content.extracurricular ? `
             <h2 style="font-size: 12px; font-weight: bold; text-transform: uppercase; color: #FB923C; margin: 24px 0 8px;">Extra-Curricular</h2>

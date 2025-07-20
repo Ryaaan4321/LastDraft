@@ -47,6 +47,31 @@ export function generateBlueSidebarHTML(resume: any): string {
               <div style="background-color: #2563EB; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${skill.trim()}</div>
           `).join("")}
         </div>
+        ${(content.extras?.achievements || content.extras?.certifications || content.extras?.hobbies) ? `
+  <h3 style="color: #F97316; border-bottom: 2px solid #F97316; padding-bottom: 4px; margin-top: 20px;">Extras</h3>
+
+  ${content.extras?.achievements ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Achievements</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.achievements}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.certifications ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Certifications</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.certifications}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.hobbies ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Hobbies</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.hobbies}</div>
+    </div>
+  ` : ""}
+` : ""}
+
         ${content.projects?.length ? `
   <h2 style="font-size: 13px; font-weight: bold; text-transform: uppercase; color: #FB923C; border-bottom: 1px solid #FCD34D; margin-top: 24px; padding-bottom: 4px;">Projects</h2>
   ${content.projects.map((project: any) => `

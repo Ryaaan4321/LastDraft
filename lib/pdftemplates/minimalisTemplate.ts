@@ -1,47 +1,9 @@
 import { formatDate } from "../types"
 export function generateMinimalistHTML(resume: any): string {
   const { content } = resume
-  const getSkillLevel = (skill: string): number => {
-    const skillLevels: Record<string, number> = {
-      JAVASCRIPT: 85,
-      TYPESCRIPT: 80,
-      REACT: 90,
-      "NODE.JS": 75,
-      "EXPRESS.JS": 70,
-      MONGODB: 65,
-      SQL: 70,
-      "MATERIAL UI": 80,
-      "TAILWIND CSS": 85,
-    }
-    return skillLevels[skill.toUpperCase()] || 70
-  }
-
   const sanitize = (str: string) => str || ""
 
-  const renderSkills = () => {
-    const skills = Array.isArray(content.skills)
-      ? content.skills
-      : typeof content.skills === "string"
-        ? content.skills.split("\n")
-        : []
-
-    return skills
-      .slice(0, 8)
-      .map((skill: string) => {
-        const name = skill.trim()
-        const level = getSkillLevel(name)
-        return `
-          <div style="margin-bottom: 10px">
-            <div style="font-size: 12px; font-weight: 600;">${name}</div>
-            <div style="background: #e5e7eb; height: 6px; border-radius: 4px;">
-              <div style="width: ${level}%; background: #1f2937; height: 6px; border-radius: 4px;"></div>
-            </div>
-          </div>
-        `
-      })
-      .join("")
-  }
-
+ 
   return `
       <!DOCTYPE html>
     <html lang="en">
@@ -85,11 +47,37 @@ export function generateMinimalistHTML(resume: any): string {
             ${content.personalInfo?.location ? `📍 ${content.personalInfo.location}` : ""}
           </div>
         ` : ""}
+          ${content.skills ? `
+            <h2 style="font-size: 12px; font-weight: bold; text-transform: uppercase;  margin: 24px 0 16px;">Skills</h2>
+            ${(typeof content.skills === "string" ? content.skills.split("\n") : content.skills).map((skill: string) => `
+              <div style="font-size: 11px; text-transform: uppercase; font-weight: 500; margin-bottom: 4px;">${skill.trim()}</div>
+            `).join("")}
+          ` : ""}
 
-        ${renderSkills() ? `
-          <h2 class="section-title" style="margin-top: 2rem;">Skills</h2>
-          ${renderSkills()}
-        ` : ""}
+                ${(content.extras?.achievements || content.extras?.certifications || content.extras?.hobbies) ? `
+  <h3 style="; border-bottom: 2px solid #F97316; padding-bottom: 4px; margin-top: 20px;">Extras</h3>
+
+  ${content.extras?.achievements ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Achievements</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.achievements}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.certifications ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Certifications</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.certifications}</div>
+    </div>
+  ` : ""}
+
+  ${content.extras?.hobbies ? `
+    <div style="margin-top: 10px;">
+      <strong style="display: block; font-size: 13px;">Hobbies</strong>
+      <div style="font-size: 13px; margin-top: 4px;">${content.extras.hobbies}</div>
+    </div>
+  ` : ""}
+` : ""}
 
         ${content.links && Object.keys(content.links).length > 0 ? `
           <h2 class="section-title" style="margin-top: 2rem;">Links</h2>

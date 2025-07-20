@@ -71,7 +71,12 @@ export const resumeTemplates = [
           endDate: "2024"
         },
       ],
-      summary: []
+      summary: [],
+      extras: {
+        hobbies: "",
+        achievements: "",
+        certifications: ""
+      }
     },
   },
 
@@ -98,7 +103,12 @@ export const resumeTemplates = [
           endDate: "2024"
         },
       ],
-      summary: []
+      summary: [],
+      extras: {
+        hobbies: "",
+        achievements: "",
+        certifications: ""
+      }
     },
   },
   {
@@ -124,7 +134,12 @@ export const resumeTemplates = [
           endDate: "2024"
         },
       ],
-      summary: []
+      summary: [],
+      extras: {
+        hobbies: "",
+        achievements: "",
+        certifications: ""
+      }
     },
   },
   {
@@ -150,7 +165,12 @@ export const resumeTemplates = [
           endDate: "2024"
         },
       ],
-      summary: []
+      summary: [],
+      extras: {
+        hobbies: "",
+        achievements: "",
+        certifications: ""
+      }
     },
   },
 ]

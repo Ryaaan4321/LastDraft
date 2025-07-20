@@ -48,8 +48,8 @@ export default function Header() {
                         <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
                             Templates
                         </Link>
-                        <Link href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
-                            Pricing
+                        <Link href="/edit-profile" className="text-gray-600 hover:text-gray-900 transition-colors">
+                            Profile
                         </Link>
                     </nav>
 

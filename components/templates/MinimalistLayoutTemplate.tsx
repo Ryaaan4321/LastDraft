@@ -69,27 +69,77 @@ export default function MinimalistLayoutTemplate({ content }: { content: any }) 
 
                     {/* Skills */}
                     {content.skills && (
-                        <div>
-                            <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">SKILLS</h2>
-                            <div className="space-y-3">
-                                {typeof content.skills === "string" &&
-                                    content.skills
-                                        .split("\n")
-                                        .slice(0, 8)
-                                        .map((skill: string, i: number) => {
-                                            const skillName = skill.trim()
-                                            const skillLevel = getSkillLevel(skillName)
-                                            return (
-                                                <div key={i} className="space-y-1">
-                                                    <div className="text-xs font-medium text-gray-700">{skillName}</div>
-                                                    <div className="w-full bg-gray-200 h-1.5">
-                                                        <div className="bg-gray-800 h-1.5" style={{ width: `${skillLevel}%` }}></div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
+                        <section className="mb-8">
+                            <h2 className="text-lg font-bold text-center text-gray-900 uppercase tracking-wider mb-6">SKILLS</h2>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {typeof content.skills === "string"
+                                    ? content.skills.split("\n").map((skill: string, i: number) => {
+                                        const skillName = skill.trim();
+                                        if (!skillName) return null;
+                                        return (
+                                            <span
+                                                key={i}
+                                                className="px-3 py-1 bg-black text-gray-700 text-xs font-medium rounded-full border"
+                                            >
+                                                {skillName}
+                                            </span>
+                                        );
+                                    })
+                                    : Array.isArray(content.skills) &&
+                                    content.skills.map((skill: string, i: number) => {
+                                        const skillName = skill.trim();
+                                        if (!skillName) return null;
+                                        return (
+                                            <span
+                                                key={i}
+                                                className="px-3 py-1 bg-white text-gray-700 text-xs font-medium rounded-full border"
+                                            >
+                                                {skillName}
+                                            </span>
+                                        );
+                                    })}
                             </div>
-                        </div>
+                        </section>
+                    )}
+                    {content.extras && (content.extras.hobbies || content.extras.achievements || content.extras.certifications) && (
+                        <section>
+                            <h2 className="text-sm font-bold text-black uppercase tracking-wide mb-4 border-b border-black pb-1">
+                                Extras
+                            </h2>
+
+                            {/* Achievements */}
+                            {content.extras.achievements && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Achievements</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.achievements }}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Certifications */}
+                            {content.extras.certifications && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Certifications</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.certifications }}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Hobbies */}
+                            {content.extras.hobbies && (
+                                <div className="mb-4">
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Hobbies</h3>
+                                    <div
+                                        className="text-xs text-white-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: content.extras.hobbies }}
+                                    />
+                                </div>
+                            )}
+                        </section>
                     )}
 
                     {/* Links */}
@@ -159,7 +209,7 @@ export default function MinimalistLayoutTemplate({ content }: { content: any }) 
                     )}
                     {Array.isArray(content.projects) && content.projects.length > 0 && (
                         <section>
-                            <h2 className="text-sm font-bold uppercase tracking-wider mb-4 text-orange-500 border-b border-orange-200 pb-1">
+                            <h2 className="text-sm font-bold uppercase tracking-wider mb-4 text-black border-b border-black pb-1">
                                 Projects
                             </h2>
                             <div className="space-y-5">

@@ -37,7 +37,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
     const [activeTab, setActiveTab] = useState("personal")
     const [TemplateComponent, setTemplateComponent] = useState<React.ComponentType<{ content: any }> | null>(null)
     const [manualSkill, setManualSkill] = useState("")
-    const tabOrder = ["personal", "experience", "education", "skills", "projects", "summary"]
+    const tabOrder = ["personal", "experience", "education", "skills", "projects", "summary", "extras"]
 
 
     useEffect(() => {
@@ -205,9 +205,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                     resumeId: resume.id
                 })
             });
-
             const data = await res.json();
-
             if (!res.ok) {
                 throw new Error(data.err || "Failed to generate summary");
             }
@@ -230,7 +228,6 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
             toast.error(e.message || "Failed to generate summary");
         }
     };
-
     useEffect(() => {
         const interval = setInterval(() => {
             handleSave()
@@ -301,10 +298,10 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             {/* <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white" onClick={handleAIBulletPoints}>
                                 <Sparkles className="w-4 h-4 mr-2" /> AI Bullet Points
                             </Button> */}
-                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white" onClick={handleSave} disabled={saving}>
+                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white cursor-pointer" onClick={handleSave} disabled={saving}>
                                 <Save className="w-4 h-4 mr-2" /> {saving ? "Saving..." : "Save"}
                             </Button>
-                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white" onClick={handleDownload}>
+                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white cursor-pointer" onClick={handleDownload}>
                                 <Download className="w-4 h-4 mr-2" /> Download PDF
                             </Button>
                         </div>
@@ -315,13 +312,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6 ">
                         <Tabs value={activeTab} onValueChange={setActiveTab}>
-                            <TabsList className="grid w-full grid-cols-6 ">
+                            <TabsList className="grid w-full grid-cols-7 ">
                                 <TabsTrigger value="personal" className="text-[#FA6600]">Personal</TabsTrigger>
                                 <TabsTrigger value="experience" className="text-[#FA6600]">Experience</TabsTrigger>
                                 <TabsTrigger value="education" className="text-[#FA6600]">Education</TabsTrigger>
                                 <TabsTrigger value="skills" className="text-[#FA6600]">Skills</TabsTrigger>
                                 <TabsTrigger value="projects" className="text-[#FA6600]">Projects</TabsTrigger>
                                 <TabsTrigger value="summary" className="text-[#FA6600]">Summary</TabsTrigger>
+                                <TabsTrigger value="extras" className="text-[#FA6600]">Extras</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="personal">
@@ -870,6 +868,57 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                     </CardContent>
                                 </Card>
                             </TabsContent>
+
+                            {/* added the extras here */}
+                            <TabsContent value="extras">
+                                <div className="space-y-4">
+                                    {/* Achievements */}
+                                    <div>
+                                        <label className="text-sm font-medium">Achievements</label>
+                                        <TiptapEditor
+                                            value={content.extras?.achievements || ""}
+                                            onChange={(value) => {
+                                                updateContent("extras", {
+                                                    ...content.extras,
+                                                    achievements: value,
+                                                });
+                                            }}
+                                            placeholder="List your achievements..."
+                                        />
+                                    </div>
+
+                                    {/* Certifications */}
+                                    <div>
+                                        <label className="text-sm font-medium">Certifications</label>
+                                        <TiptapEditor
+                                            value={content.extras?.certifications || ""}
+                                            onChange={(value) => {
+                                                updateContent("extras", {
+                                                    ...content.extras,
+                                                    certifications: value,
+                                                });
+                                            }}
+                                            placeholder="List your certifications..."
+                                        />
+                                    </div>
+
+                                    {/* Hobbies */}
+                                    <div>
+                                        <label className="text-sm font-medium">Hobbies</label>
+                                        <TiptapEditor
+                                            value={content.extras?.hobbies || ""}
+                                            onChange={(value) => {
+                                                updateContent("extras", {
+                                                    ...content.extras,
+                                                    hobbies: value,
+                                                });
+                                            }}
+                                            placeholder="List your hobbies or interests..."
+                                        />
+                                    </div>
+                                </div>
+                            </TabsContent>
+
 
 
                         </Tabs>
