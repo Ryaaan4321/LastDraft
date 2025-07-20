@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 import client from "@/app/db"
 import { resumeTemplates } from "@/utils/data/templates"
 
-console.log("this route function got called")
+
 export async function POST(req: NextRequest) {
   try {
     const { templateId } = await req.json()
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     if (!template) {
       return NextResponse.json({ error: "Template not found" }, { status: 404 })
     }
-    console.log("decoded id = ",decoded.id)
+ 
     const newResume = await client.resume.create({
       data: {
         userId: decoded.id,

@@ -10,7 +10,6 @@ export interface AdminPayLoad {
 export async function GET() {
     try {
         const users = await client.profile.findMany();
-        console.log("users from get req of admin side = ",users);
         return NextResponse.json({ success: true, data: users });
     }catch(e:any){
         return NextResponse.json({success:false,msg:e.message});

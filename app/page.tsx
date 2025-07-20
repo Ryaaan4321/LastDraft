@@ -8,41 +8,8 @@ import { useUser } from "@/hooks/user.hooks"
 
 export default function HomePage() {
   const { userData, userLoading } = useUser();
-  console.log("usrdata = ", userData);
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-[#FA6600]" />
-              <span className="ml-2 text-xl font-semibold text-gray-900">LastDraft</span>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Link href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Features
-              </Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Templates
-              </Link>
-              <Link href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Pricing
-              </Link>
-            </nav>
-            <div className="flex items-center space-x-4">
-              {!userData && <Link href='/auth/signin'>
-                <Button variant="ghost" className="text-gray-600 hover:text-gray-900 cursor-pointer">
-                  Sign In
-                </Button></Link>}
-              <Link href={userData ? "/resume/new" : "/auth/signin"}>
-                <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white cursor-pointer">Get Started</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -195,32 +162,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <FileText className="h-6 w-6 text-[#FA6600]" />
-              <span className="ml-2 text-lg font-semibold text-gray-900">LastDraft</span>
-            </div>
-            <div className="flex space-x-6 text-sm text-gray-600">
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Contact
-              </Link>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
-            © 2024 LastDraft. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

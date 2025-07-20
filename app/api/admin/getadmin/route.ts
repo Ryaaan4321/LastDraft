@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 
-console.log("get user route got called");
+
 export async function GET() {
     try {
         const cookiestore = cookies();
