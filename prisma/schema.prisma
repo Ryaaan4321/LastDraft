@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,36 +15,36 @@ model Profile {
   avatarUrl String?   @map("avatar_url")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
-  resumes   Resume[]
-  payments  Payment[]
   aiUsage   AiUsage[]
+  payments  Payment[]
+  resumes   Resume[]
 
   @@map("profiles")
 }
 
 model Admin {
-  id        String    @id @default(uuid()) @db.Uuid
-  email     String    @unique
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
   password  String
   fullName  String?
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
-
-
 model Resume {
-  id          String    @id @default(uuid()) @db.Uuid
-  userId      String    @map("user_id") @db.Uuid
-  title       String    @default("Untitled Resume")
-  content     Json      @default("{}")
-  templateId  String    @default("modern") @map("template_id")
-  isPublished Boolean   @default(false) @map("is_published")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  user        Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payments    Payment[]
-  aiUsage     AiUsage[]
+  id                String    @id @default(uuid()) @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  title             String    @default("Untitled Resume")
+  content           Json      @default("{}")
+  templateId        String    @default("modern") @map("template_id")
+  isPublished       Boolean   @default(false) @map("is_published")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  lastEditedSection String?
+  aiUsage           AiUsage[]
+  payments          Payment[]
+  user              Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aiUsed            Boolean ?
 
   @@map("resumes")
 }
@@ -67,8 +61,8 @@ model Payment {
   status            PaymentStatus @default(PENDING)
   createdAt         DateTime      @default(now()) @map("created_at")
   updatedAt         DateTime      @updatedAt @map("updated_at")
-  user              Profile       @relation(fields: [userId], references: [id], onDelete: Cascade)
   resume            Resume?       @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  user              Profile       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("payments")
 }
@@ -81,8 +75,8 @@ model AiUsage {
   tokensUsed Int       @default(0) @map("tokens_used")
   cost       Int       @default(0)
   createdAt  DateTime  @default(now()) @map("created_at")
-  user       Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
   resume     Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  user       Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("ai_usage")
 }

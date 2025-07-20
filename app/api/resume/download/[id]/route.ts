@@ -4,49 +4,73 @@ import { cookies } from "next/headers"
 import jwt from 'jsonwebtoken'
 import client from '@/app/db'
 import { PaymentType, PaymentStatus } from "@prisma/client"
+import { templateGenerators } from "@/lib/pdftemplates"
 
-console.log("download route got called ")
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const resumeId = params.id;
-    
     if (!resumeId) {
       return NextResponse.json({ error: "Resume ID is required" }, { status: 400 });
     }
-    let user: jwt.JwtPayload;
     const cookieStore = cookies();
     const token = (await cookieStore).get("token")?.value;
     if (!token || !process.env.SECRET_KEY) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-    try {
-      const decoded = jwt.verify(token, process.env.SECRET_KEY!)
-      if (typeof decoded === "string") {
-        return NextResponse.json({ error: "Invalid token payload" }, { status: 401 })
-      }
-      user = decoded
-    } catch {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 })
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    let user: jwt.JwtPayload;
+    try {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      if (typeof decoded === "string") {
+        return NextResponse.json({ error: "Invalid token payload" }, { status: 401 });
+      }
+      user = decoded;
+    } catch {
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
-    const payment = await client.payment.findFirst({
+    const aiUssageCount = await client.aiUsage.count({
       where: {
         userId: user.id,
-        resumeId: resumeId,
-        paymentType: "DOWNLOAD",
-        status: "COMPLETED"
+        resumeId
       }
-    });
-    if (!payment) {
-      return NextResponse.json({ error: "Payment required" }, { status: 402 })
+    })
+    if (aiUssageCount > 0) {
+      const payment = await client.payment.findFirst({
+        where: {
+          userId: user.id,
+          resumeId,
+          paymentType: "DOWNLOAD",
+          status: "COMPLETED"
+        }
+      });
+      if (!payment) {
+        return NextResponse.json({ error: "Payment required due to AI usage" }, { status: 402 });
+      }
+    } else {
+      const alreadyLoggedFree = await client.payment.findFirst({
+        where: {
+          userId: user.id,
+          resumeId,
+          paymentType: "DOWNLOAD",
+          status: "COMPLETED",
+          amount: 0,
+        },
+      });
+      if (!alreadyLoggedFree) {
+        await client.payment.create({
+          data: {
+            userId: user.id,
+            resumeId,
+            paymentType: "DOWNLOAD",
+            amount: 0,
+            status: "COMPLETED",
+          },
+        });
+      }
     }
-
     const resume = await client.resume.findFirst({
       where: {
         id: resumeId,
@@ -65,201 +89,166 @@ export async function GET(
     });
 
     if (!resume) {
-      return NextResponse.json({ error: "Resume not found" }, { status: 404 })
+      return NextResponse.json({ error: "Resume not found" }, { status: 404 });
     }
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    const htmlContent = generateResumeHTML(resume)
 
-    await page.setContent(htmlContent)
+    const templateId = resume.templateId ?? "blue";
+    const generator = templateGenerators[templateId];
+
+    if (!generator) {
+      return NextResponse.json({ error: `Template "${templateId}" not supported.` }, { status: 400 });
+    }
+
+    const htmlContent = generator(resume);
+
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: "shell"
+    });
+
+    const page = await browser.newPage();
+
+    await page.setViewport({
+      width: 1240,
+      height: 1754,
+      deviceScaleFactor: 2
+    });
+
+    await page.emulateMediaType('print');
+
+    await page.setContent(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${resume.title}</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+          * {
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+
+          body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: white !important;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            padding: 20mm;
+          }
+
+          .print-sidebar {
+            background-color: #0e374e !important;
+            color: white !important;
+          }
+
+          .print-orange {
+            color: #FA6600 !important;
+          }
+
+          .print-orange-bg {
+            background-color: #FA6600 !important;
+          }
+
+          .print-gray-light {
+            color: #95a5a6 !important;
+          }
+
+          .print-gray-dark {
+            color: #2c3e50 !important;
+          }
+
+          .resume-container {
+            display: flex;
+            min-height: 257mm;
+          }
+
+          .sidebar {
+            width: 35%;
+            padding: 15mm;
+            background: #0e374e;
+            color: white;
+          }
+
+          .main-content {
+            width: 65%;
+            padding: 15mm;
+          }
+
+          h1 {
+            font-size: 24pt;
+            margin-bottom: 10pt;
+          }
+
+          h2 {
+            font-size: 14pt;
+            margin-bottom: 10pt;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 3pt;
+          }
+
+          .contact-info {
+            margin-bottom: 15pt;
+          }
+
+          .section {
+            margin-bottom: 15pt;
+          }
+
+          .experience-item, .education-item {
+            margin-bottom: 12pt;
+          }
+
+          .job-title, .degree {
+            font-weight: bold;
+          }
+
+          .company, .institution {
+            font-style: italic;
+          }
+
+          .date {
+            font-size: 0.9em;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="resume-container">
+          ${htmlContent}
+        </div>
+      </body>
+      </html>
+    `, { waitUntil: 'networkidle0' });
+
     const pdf = await page.pdf({
-      format: "A4",
+      format: 'A4',
       printBackground: true,
-      margin: {
-        top: "20px",
-        right: "20px",
-        bottom: "20px",
-        left: "20px",
-      },
-    })
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
+      preferCSSPageSize: true,
+      scale: 1.0
+    });
 
-    await browser.close()
+    await browser.close();
 
     return new NextResponse(pdf, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${resume.title}.pdf"`,
+        "Content-Disposition": `attachment; filename="${resume.title.replace(/[^a-z0-9]/gi, '_')}.pdf"`,
       },
-    })
+    });
+
   } catch (error) {
-    console.error("PDF generation error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("PDF generation error:", error);
+    return NextResponse.json({
+      error: "Internal server error",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
-}
-
-function generateResumeHTML(resume: any) {
-  const { content } = resume
-
-  return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <title>${resume.title}</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          line-height: 1.6;
-          color: #333;
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-        .header {
-          text-align: center;
-          border-bottom: 2px solid #333;
-          padding-bottom: 20px;
-          margin-bottom: 30px;
-        }
-        .header h1 {
-          margin: 0;
-          font-size: 2.5em;
-          color: #2c3e50;
-        }
-        .contact-info {
-          margin-top: 10px;
-          font-size: 1.1em;
-        }
-        .section {
-          margin-bottom: 30px;
-        }
-        .section h2 {
-          color: #2c3e50;
-          border-bottom: 1px solid #bdc3c7;
-          padding-bottom: 5px;
-          margin-bottom: 15px;
-        }
-        .experience-item, .education-item {
-          margin-bottom: 20px;
-        }
-        .experience-header, .education-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 5px;
-        }
-        .job-title, .degree {
-          font-weight: bold;
-          font-size: 1.1em;
-        }
-        .company, .institution {
-          color: #7f8c8d;
-          font-style: italic;
-        }
-        .date {
-          color: #95a5a6;
-          font-size: 0.9em;
-        }
-        .description {
-          margin-top: 10px;
-        }
-        ul {
-          padding-left: 20px;
-        }
-        li {
-          margin-bottom: 5px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="header">
-        <h1>${content.personalInfo?.fullName || "Resume"}</h1>
-        <div class="contact-info">
-          ${content.personalInfo?.email ? `${content.personalInfo.email}` : ""}
-          ${content.personalInfo?.phone ? ` • ${content.personalInfo.phone}` : ""}
-          ${content.personalInfo?.location ? ` • ${content.personalInfo.location}` : ""}
-        </div>
-      </div>
-
-      ${content.personalInfo?.summary
-      ? `
-        <div class="section">
-          <h2>Professional Summary</h2>
-          <div>${content.personalInfo.summary}</div>
-        </div>
-      `
-      : ""
-    }
-
-      ${content.experience && content.experience.length > 0
-      ? `
-        <div class="section">
-          <h2>Experience</h2>
-          ${content.experience
-        .map(
-          (exp: any) => `
-            <div class="experience-item">
-              <div class="experience-header">
-                <div>
-                  <div class="job-title">${exp.title || ""}</div>
-                  <div class="company">${exp.company || ""}</div>
-                </div>
-                <div class="date">${exp.startDate || ""} - ${exp.endDate || ""}</div>
-              </div>
-              ${exp.description ? `<div class="description">${exp.description}</div>` : ""}
-            </div>
-          `,
-        )
-        .join("")}
-        </div>
-      `
-      : ""
-    }
-
-      ${content.education && content.education.length > 0
-      ? `
-        <div class="section">
-          <h2>Education</h2>
-          ${content.education
-        .map(
-          (edu: any) => `
-            <div class="education-item">
-              <div class="education-header">
-                <div>
-                  <div class="degree">${edu.degree || ""}</div>
-                  <div class="institution">${edu.institution || ""}</div>
-                </div>
-                <div class="date">${edu.startYear || ""} - ${edu.endYear || ""}</div>
-              </div>
-            </div>
-          `,
-        )
-        .join("")}
-        </div>
-      `
-      : ""
-    }
-
-      ${content.skills
-      ? `
-        <div class="section">
-          <h2>Skills</h2>
-          <div>${content.skills}</div>
-        </div>
-      `
-      : ""
-    }
-
-      ${content.projects
-      ? `
-        <div class="section">
-          <h2>Projects</h2>
-          <div>${content.projects}</div>
-        </div>
-      `
-      : ""
-    }
-    </body>
-    </html>
-  `
 }

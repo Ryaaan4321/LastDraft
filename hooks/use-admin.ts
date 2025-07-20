@@ -89,7 +89,7 @@ export function useWholeTransaction() {
     const [totalT, setTotalT] = useState<number>(0);
     const [loadingone, setLoadingOne] = useState<boolean>(true);
     const [errOne, setErrOne] = useState<string | null>(null);
-    console.log("totalT = ", totalT);
+   
     useEffect(() => {
         async function fetchdata() {
             try {

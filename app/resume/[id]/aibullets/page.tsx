@@ -21,7 +21,7 @@ export default function AIBulletsPage() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<any>(null)
     const resumeId = params.id as string
-    console.log("resumeid from the ai bullet page = ",resumeId);
+ 
     useEffect(() => {
         const checkAuth = async () => {
             const res = await fetch("/api/getuser")

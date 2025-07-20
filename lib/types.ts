@@ -8,3 +8,9 @@ export function toDbPaymentType(type: PaymentType): DbPaymentType {
 export function fromDbPaymentType(type: DbPaymentType): PaymentType {
   return type.toLowerCase() as PaymentType;
 }
+export function formatDate(dateString?: string) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "";
+  return date.toLocaleString("en-US", { month: "short", year: "numeric" });
+}

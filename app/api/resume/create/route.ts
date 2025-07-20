@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
             data: {
                 userId: user.id,
                 title: title || "Untitled Resume",
+                aiUsed:false, // here in this line there is a change
                 content: {
                     personalInfo: {},
                     experience: [],

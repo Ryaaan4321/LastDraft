@@ -31,21 +31,16 @@ export async function getCurrentUserForServer(): Promise<AuthUser | null> {
     
     // 2. Retrieve the token exactly as set in the signin route
     const token = cookieStore.get("token")?.value;
-    // console.log("token = ",token);
+   
     // 3. Validate presence of token and secret key (matches signin route check)
     if (!token || !process.env.SECRET_KEY) {
-      console.log("Missing token or SECRET_KEY");
       return null;
     }
 
     // 4. Verify the token using the same method as signin route
     const decoded = jwt.verify(token, process.env.SECRET_KEY) as AuthUser;
     
-    // console.log("Successfully decoded user:", {
-    //   id: decoded.id,
-    //   email: decoded.email,
-    //   expires: new Date(decoded.exp * 1000).toISOString()
-    // });
+    
     
     return decoded;
     

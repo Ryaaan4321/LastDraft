@@ -16,6 +16,7 @@ interface Resume {
   title: string
   content: any
   userid: string
+  lastEditedSection :string
 }
 
 interface ResumeBuilderProps {
@@ -185,7 +186,7 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
                         }
                       />
                     </div>
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                       <label className="text-sm font-medium text-[#FA6600]">Professional Summary</label>
                       <TiptapEditor
                         value={content.personalInfo?.summary || ""}
@@ -197,7 +198,7 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
                         }
                         placeholder="Write a brief professional summary..."
                       />
-                    </div>
+                    </div> */}
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -393,7 +394,7 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
                   <div className="space-y-6">
                     {content.personalInfo?.fullName && (
                       <div className="text-center border-b pb-4">
-                        <h1 className="text-2xl font-bold text-[#FA6600]">{content.personalInfo.fullName}</h1>
+                        <h1 className="text-2xl font-bold ">{content.personalInfo.fullName}</h1>
                         <div className="flex justify-center gap-4 mt-2 text-gray-600">
                           {content.personalInfo.email && <span>{content.personalInfo.email}</span>}
                           {content.personalInfo.phone && <span>{content.personalInfo.phone}</span>}
@@ -404,14 +405,14 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
 
                     {content.personalInfo?.summary && (
                       <div>
-                        <h2 className="text-lg font-semibold mb-2 text-[#FA6600] ">Professional Summary</h2>
+                        <h2 className="text-lg font-semibold mb-2  ">Professional Summary</h2>
                         <div dangerouslySetInnerHTML={{ __html: content.personalInfo.summary }} />
                       </div>
                     )}
 
                     {content.experience && content.experience.length > 0 && (
                       <div>
-                        <h2 className="text-lg font-semibold mb-2 text-[#FA6600]">Experience</h2>
+                        <h2 className="text-lg font-semibold mb-2 ">Experience</h2>
                         <div className="space-y-4">
                           {content.experience.map((exp: any, index: number) => (
                             <div key={index}>
@@ -435,7 +436,7 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
 
                     {content.education && content.education.length > 0 && (
                       <div>
-                        <h2 className="text-lg font-semibold mb-2 text-[#FA6600]">Education</h2>
+                        <h2 className="text-lg font-semibold mb-2 ">Education</h2>
                         <div className="space-y-2">
                           {content.education.map((edu: any, index: number) => (
                             <div key={index} className="flex justify-between">
@@ -454,14 +455,14 @@ export function ResumeBuilder({ resume }: ResumeBuilderProps) {
 
                     {content.skills && (
                       <div>
-                        <h2 className="text-lg font-semibold mb-2 text-[#FA6600]">Skills</h2>
+                        <h2 className="text-lg font-semibold mb-2 ">Skills</h2>
                         <div dangerouslySetInnerHTML={{ __html: content.skills }} />
                       </div>
                     )}
 
                     {content.projects && (
                       <div>
-                        <h2 className="text-lg font-semibold mb-2 text-[#FA6600]">Projects</h2>
+                        <h2 className="text-lg font-semibold mb-2 ">Projects</h2>
                         <div dangerouslySetInnerHTML={{ __html: content.projects }} />
                       </div>
                     )}

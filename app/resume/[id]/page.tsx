@@ -9,8 +9,8 @@ interface ResumePageProps {
     params: { id: string }
 }
 export default async function ResumePage({ params }: ResumePageProps) {
-    const user=await getCurrentUser();
-    if(!user){
+    const user = await getCurrentUser();
+    if (!user) {
         return ("/auth/signin");
     }
     const resume = await client.resume.findFirst({
@@ -19,7 +19,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
             userId: user.id,
         },
     })
-    console.log("resume from the id page = ",resume);
+
     if (!resume) {
         redirect("/")
     }
@@ -28,6 +28,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
         id: resume.id,
         title: resume.title,
         content: resume.content,
-        userid: resume.userId
+        userid: resume.userId,
+        lastEditedSection: resume.lastEditedSection || ""
     }} />
 }

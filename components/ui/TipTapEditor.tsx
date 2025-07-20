@@ -28,15 +28,16 @@ export default function TiptapEditor({ value, onChange, placeholder }: TiptapEdi
     editorProps: {
       attributes: {
         class: "min-h-[150px] p-4 border rounded-md focus:outline-none bg-white prose prose-sm max-w-none",
+        placeholder: placeholder || "Start typing...",
       },
-    },
+    }
   })
 
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value)
+    if (editor && value && editor.getHTML() !== value) {
+      editor.commands.setContent(value, false) // false avoids triggering onUpdate again
     }
-  }, [value])
+  }, [editor, value])
 
   if (!editor) return null
 
