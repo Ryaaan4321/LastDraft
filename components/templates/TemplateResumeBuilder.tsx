@@ -282,7 +282,27 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
         };
         updateContent("projects", newProjects);
     };
-
+    const handleDeleteExperience = (index: number) => {
+        if (confirm("Are you sure you want to delete this experience?")) {
+            const newExp = [...(content.experience || [])];
+            newExp.splice(index, 1);
+            updateContent("experience", newExp);
+        }
+    };
+    const handleDeleteEducation = (index: number) => {
+        if (confirm("Are you sure you want to delete this experience?")) {
+            const newExp = [...(content.education || [])];
+            newExp.splice(index, 1);
+            updateContent("education", newExp);
+        }
+    };
+    const handleDeleteProject = (index: number) => {
+        if (confirm("Are you sure you want to delete this experience?")) {
+            const newExp = [...(content.projects || [])];
+            newExp.splice(index, 1);
+            updateContent("projects", newExp);
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="border-b bg-white">
@@ -325,11 +345,11 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="personal">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Personal Information</CardTitle>
+                                        <CardTitle className="text-blue-900">Personal Information</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label className="text-[#FA6600]">Please Enter your FullName</Label>
+                                            <Label className="text-blue-900">FullName</Label>
                                             <Input
                                                 placeholder="yourname..."
                                                 value={content.personalInfo?.fullName || ""}
@@ -341,7 +361,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                 }
                                             /></div>
                                         <div className="space-y-2">
-                                            <Label className="text-[#FA6600]">Please Enter your Email</Label>
+                                            <Label className="text-blue-900">Email</Label>
                                             <Input
                                                 placeholder="your@gmail.com"
                                                 type="email"
@@ -355,7 +375,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label className="text-[#FA6600]">Please Enter your Phone Number</Label>
+                                            <Label className="text-blue-900">Phone Number</Label>
                                             <Input
                                                 placeholder="Phone"
                                                 value={content.personalInfo?.phone || ""}
@@ -368,7 +388,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label className="text-[#FA6600]">Please Enter your Location</Label>
+                                            <Label className="text-blue-900">Location</Label>
                                             <Input
                                                 placeholder="Location"
                                                 value={content.personalInfo?.location || ""}
@@ -380,7 +400,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                 }
                                             />
                                         </div>
-                                        <div className="space-y-2">
+                                        {/* <div className="space-y-2">
                                             <label className="text-sm font-medium text-[#FA6600]">Professional Summary</label>
                                             <TiptapEditor
                                                 value={content.personalInfo?.summary || ""}
@@ -392,7 +412,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                 }
                                                 placeholder="Write a brief professional summary..."
                                             />
-                                        </div>
+                                        </div> */}
                                     </CardContent>
                                 </Card>
                             </TabsContent>
@@ -400,14 +420,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="experience">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Work Experience</CardTitle>
+                                        <CardTitle className="text-blue-900">Work Experience</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
                                             {(content.experience || []).map((exp: any, index: number) => (
                                                 <div key={index} className="border p-4 rounded-lg space-y-3 relative">
                                                     <div className="space-y-2">
-                                                        <Label className="text-[#FA6600]">Job Title</Label>
+                                                        <Label className="text-blue-900">Job Title</Label>
                                                         <Input
                                                             placeholder="Job Title"
                                                             value={exp.title || ""}
@@ -419,7 +439,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label className="text-[#FA6600]">Company Name</Label>
+                                                        <Label className="text-blue-900">Company Name</Label>
                                                         <Input
                                                             placeholder="Company"
                                                             value={exp.company || ""}
@@ -434,7 +454,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
 
                                                         {/* new date code starts from here */}
                                                         <div className="space-y-2">
-                                                            <Label className="text-[#FA6600]">Start Date</Label>
+                                                            <Label className="text-blue-900">Start Date</Label>
                                                             <DatePicker
                                                                 selected={
                                                                     exp.startDate && !isNaN(new Date(exp.startDate).getTime())
@@ -457,7 +477,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         </div>
 
                                                         <div className="space-y-2">
-                                                            <Label className="text-[#FA6600]">End Date</Label>
+                                                            <Label className="text-blue-900">End Date</Label>
                                                             <DatePicker
                                                                 selected={exp.endDate && exp.endDate !== "Present" ? new Date(exp.endDate) : null}
                                                                 onChange={(date: Date | null) => {
@@ -504,7 +524,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => handleAIBulletPoints(index)}
-                                                        className="text-sm text-[#FA6600] border-[#FA6600] hover:bg-orange-100 mt-2"
+                                                        className="text-sm text-[#FA6600] border-[#FA6600] hover:bg-orange-100 mt-2 cursor-pointer"
                                                     >
                                                         <Sparkles className="w-4 h-4 mr-1" /> Generate with AI
                                                     </Button>
@@ -528,6 +548,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         >
                                                             <ArrowDown className="" />
                                                         </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="destructive"
+                                                            onClick={() => handleDeleteExperience(index)}
+                                                            className="bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                                                        >
+                                                            Delete
+                                                        </Button>
                                                     </div>
                                                 </div>
 
@@ -549,14 +577,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="education">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Education</CardTitle>
+                                        <CardTitle className="text-blue-900">Education</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
                                             {(content.education || []).map((edu: any, index: number) => (
                                                 <div key={index} className="border p-4 rounded-lg space-y-3">
                                                     <div className="space-y-2">
-                                                        <Label className="text-[#FA6600]">Degree</Label>
+                                                        <Label className="text-blue-900">Degree</Label>
                                                         <Input
                                                             placeholder="Degree"
                                                             value={edu.degree || ""}
@@ -568,7 +596,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label className="text-[#FA6600]">Institution</Label>
+                                                        <Label className="text-blue-900">Institution</Label>
                                                         <Input
                                                             placeholder="Institution"
                                                             value={edu.institution || ""}
@@ -619,6 +647,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         >
                                                             <ArrowDown className="" />
                                                         </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="destructive"
+                                                            onClick={() => handleDeleteEducation(index)}
+                                                            className="bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                                                        >
+                                                            Delete
+                                                        </Button>
                                                     </div>
                                                 </div>
                                             ))}
@@ -641,7 +677,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="skills">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Skills</CardTitle>
+                                        <CardTitle className="text-blue-900">Skills</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         {/* Predefined Skills */}
@@ -698,7 +734,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                         setManualSkill("")
                                                     }
                                                 }}
-                                                className="bg-black text-white"
+                                                className="bg-blue-900 text-white cursor-pointer"
                                             >
                                                 Add
                                             </Button>
@@ -734,7 +770,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="projects">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Projects</CardTitle>
+                                        <CardTitle className="text-blue-900">Projects</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
@@ -745,7 +781,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                     <div key={index} className="border p-4 rounded-lg space-y-3">
                                                         {/* Project Title */}
                                                         <div className="space-y-2">
-                                                            <Label className="text-[#FA6600]">Project Title</Label>
+                                                            <Label className="text-blue-900">Project Title</Label>
                                                             <Input
                                                                 placeholder="Project"
                                                                 value={pro.title || ""}
@@ -759,7 +795,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
 
                                                         {/* Project Link */}
                                                         <div className="space-y-2">
-                                                            <Label className="text-[#FA6600]">Link</Label>
+                                                            <Label className="text-blue-900">Link</Label>
                                                             <Input
                                                                 placeholder="Link"
                                                                 value={pro.link || ""}
@@ -795,7 +831,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
 
                                                         {/* Description */}
                                                         <div className="space-y-2">
-                                                            <Label className="text-[#FA6600]">Project Description</Label>
+                                                            <Label className="text-blue-900">Project Description</Label>
                                                             <TiptapEditor
                                                                 value={pro.description || ""}
                                                                 onChange={(html: string) => updateProjectDescription(index, html)}
@@ -806,7 +842,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                             variant="outline"
                                                             size="sm"
                                                             onClick={() => handleAiProject(index)}
-                                                            className="text-sm text-[#FA6600] border-[#FA6600] hover:bg-orange-100 mt-2"
+                                                            className="text-sm text-[#FA6600] border-[#FA6600] hover:bg-orange-100 mt-2 cursor-pointer"
                                                         >
                                                             <Sparkles className="w-4 h-4 mr-1" /> Generate with AI
                                                         </Button>
@@ -831,6 +867,14 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                                             >
                                                                 <ArrowDown />
                                                             </Button>
+                                                            <Button
+                                                                size="sm"
+                                                                variant="destructive"
+                                                                onClick={() => handleDeleteProject(index)}
+                                                                className="bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                                                            >
+                                                                Delete
+                                                            </Button>
                                                         </div>
                                                     </div>
                                                 );
@@ -854,7 +898,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                             <TabsContent value="summary">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-[#FA6600]">Summary</CardTitle>
+                                        <CardTitle className="text-blue-900">Summary</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <TiptapEditor
@@ -862,7 +906,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
                                             onChange={(html: string) => updateContent("summary", html)}
                                             placeholder="Let AI summarize your profile..."
                                         />
-                                        <Button onClick={handleAiSummary} className="mt-2">
+                                        <Button onClick={handleAiSummary} className="mt-2 cursor-pointer">
                                             <Sparkles className="mr-2" size={16} /> Generate with AI
                                         </Button>
                                     </CardContent>
