@@ -23,19 +23,19 @@ export default function SimpleTwoColumnTemplate({ content }: { content: any }) {
                             {content.personalInfo?.location && (
                                 <div className="flex items-start gap-2">
                                     <span>📍</span>
-                                    <span>{content.personalInfo.location}</span>
+                                    <span className="dark:text-black">{content.personalInfo.location}</span>
                                 </div>
                             )}
                             {content.personalInfo?.email && (
                                 <div className="flex items-start gap-2">
-                                    <span>✉</span>
-                                    <span>{content.personalInfo.email}</span>
+                                    <span className="">✉</span>
+                                    <span className="dark:text-black">{content.personalInfo.email}</span>
                                 </div>
                             )}
                             {content.personalInfo?.phone && (
                                 <div className="flex items-start gap-2">
                                     <span>📞</span>
-                                    <span>{content.personalInfo.phone}</span>
+                                    <span className="dark:text-black">{content.personalInfo.phone}</span>
                                 </div>
                             )}
                         </div>
@@ -69,23 +69,23 @@ export default function SimpleTwoColumnTemplate({ content }: { content: any }) {
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Skills</h2>
                             <ul className="list-disc list-inside text-sm space-y-1">
                                 {content.skills.map((skill: string, index: number) => (
-                                    <li key={index}>{skill}</li>
+                                    <li className="dark:text-black" key={index}>{skill}</li>
                                 ))}
                             </ul>
                         </section>
                     )}
                     {content.extras && (content.extras.hobbies || content.extras.achievements || content.extras.certifications) && (
                         <section>
-                            <h2 className="text-sm font-bold text-black uppercase tracking-wide mb-4 border-b border-black pb-1">
+                            <h2 className="dark:text-black text-sm font-bold text-black uppercase tracking-wide mb-4 border-b border-black pb-1">
                                 Extras
                             </h2>
 
                             {/* Achievements */}
                             {content.extras.achievements && (
                                 <div className="mb-4">
-                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Achievements</h3>
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1 dark:text-black">Achievements</h3>
                                     <div
-                                        className="text-xs text-white-700 leading-relaxed"
+                                        className="text-xs text-white-700 leading-relaxed dark:text-black"
                                         dangerouslySetInnerHTML={{ __html: content.extras.achievements }}
                                     />
                                 </div>
@@ -94,9 +94,9 @@ export default function SimpleTwoColumnTemplate({ content }: { content: any }) {
                             {/* Certifications */}
                             {content.extras.certifications && (
                                 <div className="mb-4">
-                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Certifications</h3>
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1 dark:text-black">Certifications</h3>
                                     <div
-                                        className="text-xs text-white-700 leading-relaxed"
+                                        className="text-xs text-white-700 leading-relaxed dark:text-black"
                                         dangerouslySetInnerHTML={{ __html: content.extras.certifications }}
                                     />
                                 </div>
@@ -105,9 +105,9 @@ export default function SimpleTwoColumnTemplate({ content }: { content: any }) {
                             {/* Hobbies */}
                             {content.extras.hobbies && (
                                 <div className="mb-4">
-                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1">Hobbies</h3>
+                                    <h3 className="text-xs font-bold text-white-800 uppercase mb-1 dark:text-black">Hobbies</h3>
                                     <div
-                                        className="text-xs text-white-700 leading-relaxed"
+                                        className="text-xs text-white-700 leading-relaxed dark:text-black"
                                         dangerouslySetInnerHTML={{ __html: content.extras.hobbies }}
                                     />
                                 </div>

@@ -70,7 +70,7 @@ export default function EditProfile() {
         }
     }
     return (
-        <div className="min-h-screen bg-white p-6">
+        <div className="min-h-screen bg-white p-6 dark:bg-gray-900">
             <div className="max-w-2xl mx-auto">
                 <div className="mb-8">
                     <div className="flex ">
@@ -88,7 +88,7 @@ export default function EditProfile() {
                 <Card className="border-orange-200">
                     <CardContent className="p-6 space-y-6">
                         <div className="space-y-2">
-                            <Label htmlFor="website" className="text-gray-700">
+                            <Label htmlFor="website" className="text-gray-700 dark:text-white">
                                 Current Password
                             </Label>
                             <Input
@@ -100,7 +100,7 @@ export default function EditProfile() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="summary" className="text-gray-700">
+                            <Label htmlFor="summary" className="text-gray-700 dark:text-white">
                                 New Password
                             </Label>
                             <Input
@@ -114,7 +114,7 @@ export default function EditProfile() {
                         <div className="flex justify-end space-x-4 pt-4">
                             <Button
                                 variant="outline"
-                                className="border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent cursor-pointer"
+                                className="border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent cursor-pointer dark:text-white"
                                 onClick={() => {
                                     setCurrentPassword("")
                                     setNewPassword("")

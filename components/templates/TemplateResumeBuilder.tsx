@@ -304,10 +304,10 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
         }
     };
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="border-b bg-white">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <div className="border-b bg-white dark:bg-gray-900">
+                <div className="container mx-auto px-4 py-4 dark:bg-gray-900">
+                    <div className="flex items-center justify-between dark:bg-gray-900">
                         <Input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}

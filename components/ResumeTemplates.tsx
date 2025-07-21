@@ -22,16 +22,16 @@ export default function TemplateResumeComponent() {
   }
 
   const templateColors = [
-    { gradient: "from-orange-500 to-pink-500", bg: "bg-orange-50", icon: "bg-orange-100", text: "text-orange-600" },
-    { gradient: "from-blue-500 to-cyan-500", bg: "bg-blue-50", icon: "bg-blue-100", text: "text-blue-600" },
-    { gradient: "from-purple-500 to-indigo-500", bg: "bg-purple-50", icon: "bg-purple-100", text: "text-purple-600" },
-    { gradient: "from-emerald-500 to-teal-500", bg: "bg-emerald-50", icon: "bg-emerald-100", text: "text-emerald-600" },
-    { gradient: "from-rose-500 to-orange-500", bg: "bg-rose-50", icon: "bg-rose-100", text: "text-rose-600" },
-    { gradient: "from-slate-600 to-gray-700", bg: "bg-slate-50", icon: "bg-slate-100", text: "text-slate-600" },
+    { gradient: "from-orange-500 to-pink-500", bg: "bg-orange-50 dark:bg-orange-900/20", icon: "bg-orange-100 dark:bg-orange-700", text: "text-orange-600 dark:text-orange-300" },
+    { gradient: "from-blue-500 to-cyan-500", bg: "bg-blue-50 dark:bg-blue-900/20", icon: "bg-blue-100 dark:bg-blue-700", text: "text-blue-600 dark:text-blue-300" },
+    { gradient: "from-purple-500 to-indigo-500", bg: "bg-purple-50 dark:bg-purple-900/20", icon: "bg-purple-100 dark:bg-purple-700", text: "text-purple-600 dark:text-purple-300" },
+    { gradient: "from-emerald-500 to-teal-500", bg: "bg-emerald-50 dark:bg-emerald-900/20", icon: "bg-emerald-100 dark:bg-emerald-700", text: "text-emerald-600 dark:text-emerald-300" },
+    { gradient: "from-rose-500 to-orange-500", bg: "bg-rose-50 dark:bg-rose-900/20", icon: "bg-rose-100 dark:bg-rose-700", text: "text-rose-600 dark:text-rose-300" },
+    { gradient: "from-slate-600 to-gray-700", bg: "bg-slate-50 dark:bg-slate-900/30", icon: "bg-slate-100 dark:bg-slate-800", text: "text-slate-600 dark:text-slate-300" },
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 transition-colors">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-orange-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
@@ -51,11 +51,11 @@ export default function TemplateResumeComponent() {
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"></div>
               </div>
             </div>
-            <h1 className="text-5xl font-bold text-slate-800 mb-4">Choose Your Perfect</h1>
+            <h1 className="text-5xl font-bold text-slate-800 dark:text-white mb-4">Choose Your Perfect</h1>
             <h2 className="text-5xl font-bold bg-gradient-to-r from-orange-600 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
               Resume Template
             </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
               Select from our professionally designed templates to create a resume that stands out from the crowd
             </p>
 
@@ -65,19 +65,19 @@ export default function TemplateResumeComponent() {
                 <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   50+
                 </div>
-                <div className="text-sm text-slate-500">Templates</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Templates</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                   100K+
                 </div>
-                <div className="text-sm text-slate-500">Downloads</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Downloads</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                   4.9★
                 </div>
-                <div className="text-sm text-slate-500">Rating</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Rating</div>
               </div>
             </div>
           </div>
@@ -92,28 +92,21 @@ export default function TemplateResumeComponent() {
             return (
               <Card
                 key={template.id}
-                className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 bg-white/80 backdrop-blur-sm"
+                className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 bg-white/80 backdrop-blur-sm dark:bg-gray-800"
               >
-                {/* Animated Border */}
-                <div
-                  className={`h-1 bg-gradient-to-r ${colors.gradient} group-hover:h-2 transition-all duration-300`}
-                ></div>
+                <div className={`h-1 bg-gradient-to-r ${colors.gradient} group-hover:h-2 transition-all duration-300`} />
 
                 <CardContent className="p-0">
-                  {/* Template Preview */}
                   <div className={`relative h-80 overflow-hidden ${colors.bg}`}>
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/40"></div>
-
-                    {/* Preview Content */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/40 dark:to-gray-900/60"></div>
                     <div className="h-full flex items-center justify-center relative">
                       <div className="text-center p-8">
                         <div className={`${colors.icon} p-4 rounded-2xl mb-4 inline-block`}>
                           <FileText className={`h-12 w-12 ${colors.text}`} />
                         </div>
-                        <p className="text-slate-500 text-sm font-medium">Template Preview</p>
+                        <p className="text-slate-500 dark:text-slate-300 text-sm font-medium">Template Preview</p>
                       </div>
 
-                      {/* Floating Elements */}
                       <div className="absolute top-4 right-4 opacity-30 group-hover:opacity-60 transition-opacity">
                         <Star className={`h-5 w-5 ${colors.text}`} />
                       </div>
@@ -122,7 +115,6 @@ export default function TemplateResumeComponent() {
                       </div>
                     </div>
 
-                    {/* Hover Overlay */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-95 transition-all duration-300 flex items-center justify-center`}
                     >
@@ -134,31 +126,27 @@ export default function TemplateResumeComponent() {
                     </div>
                   </div>
 
-                  {/* Template Info */}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3
-                        className={`text-xl font-bold text-slate-800 group-hover:bg-gradient-to-r group-hover:${colors.gradient} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300`}
-                      >
+                      <h3 className={`text-xl font-bold text-slate-800 dark:text-white group-hover:bg-gradient-to-r group-hover:${colors.gradient} group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300`}>
                         {template.title}
                       </h3>
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-3 h-3 ${i < 4 ? colors.text : "text-slate-200"} fill-current`} />
+                          <Star key={i} className={`w-3 h-3 ${i < 4 ? colors.text : "text-slate-200 dark:text-slate-700"} fill-current`} />
                         ))}
                       </div>
                     </div>
 
-                    <p className="text-slate-600 text-sm mb-6 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-300 text-sm mb-6 leading-relaxed">
                       Professional and modern design perfect for any industry. Stand out with style.
                     </p>
 
-                    {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       <span className={`px-3 py-1 ${colors.bg} ${colors.text} text-xs font-medium rounded-full`}>
                         Professional
                       </span>
-                      <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">
+                      <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-full">
                         ATS-Friendly
                       </span>
                     </div>
@@ -175,13 +163,8 @@ export default function TemplateResumeComponent() {
                   </div>
                 </CardContent>
 
-                {/* Decorative Corner Elements */}
-                <div
-                  className={`absolute top-6 right-6 w-3 h-3 ${colors.bg} rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 delay-100`}
-                ></div>
-                <div
-                  className={`absolute bottom-6 left-6 w-2 h-2 bg-gradient-to-r ${colors.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200`}
-                ></div>
+                <div className={`absolute top-6 right-6 w-3 h-3 ${colors.bg} rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 delay-100`} />
+                <div className={`absolute bottom-6 left-6 w-2 h-2 bg-gradient-to-r ${colors.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200`} />
               </Card>
             )
           })}
@@ -189,11 +172,11 @@ export default function TemplateResumeComponent() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl border border-slate-200/50 shadow-lg">
+          <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-slate-200/50 dark:border-gray-700 shadow-lg">
             <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg mr-3">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <span className="text-slate-700 font-medium">
+            <span className="text-slate-700 dark:text-white font-medium">
               Can't decide? All templates are fully customizable and ATS-friendly
             </span>
           </div>

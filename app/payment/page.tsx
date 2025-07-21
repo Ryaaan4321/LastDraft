@@ -182,7 +182,7 @@ export default function PaymentPage() {
 
     const Icon = paymentDetails.icon
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
             <Card className="w-full max-w-md">
                 <CardHeader className="text-center">
                     <div className="mx-auto w-12 h-12  rounded-full flex items-center justify-center mb-4 bg-[#FA6600]">

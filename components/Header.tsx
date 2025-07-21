@@ -6,6 +6,7 @@ import { Button } from "./ui/button"
 import { useUser } from "@/hooks/user.hooks"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import { ThemeToggle } from "./ThemeToggle"
 
 export default function Header() {
     const { userData, userLoading } = useUser()
@@ -31,31 +32,31 @@ export default function Header() {
     }
 
     return (
-        <header className="bg-white border-b border-gray-200">
+        <header className="bg-white border-b border-gray-200 dark:bg-gray-900 dark:text-white ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <Link href='/'>
                         <div className="flex items-center">
                             <FileText className="h-8 w-8 text-[#FA6600]" />
-                            <span className="ml-2 text-xl font-semibold text-gray-900">LastDraft</span>
+                            <span className="ml-2 text-xl font-semibold dark:bg-gray-900 dark:text-white">LastDraft</span>
                         </div>
                     </Link>
 
                     <nav className="hidden md:flex space-x-8">
-                        <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition-colors dark:bg-gray-900 dark:text-white">
                             DashBoard
                         </Link>
-                        <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition-colors dark:bg-gray-900 dark:text-white">
                             Templates
                         </Link>
-                        <Link href="/edit-profile" className="text-gray-600 hover:text-gray-900 transition-colors">
+                        <Link href="/edit-profile" className="text-gray-600 hover:text-gray-900 transition-colors dark:bg-gray-900 dark:text-white">
                             Profile
                         </Link>
                     </nav>
 
                     <div className="flex items-center space-x-4">
                         <Link href={userData ? "/resume/new" : "/auth/signin"}>
-                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white cursor-pointer">
+                            <Button className="bg-[#FA6600] hover:bg-[#E55A00] text-white cursor-pointer dark:text-white">
                                 Get Started
                             </Button>
                         </Link>
@@ -63,18 +64,19 @@ export default function Header() {
                         {userData ? (
                             <Button
                                 variant="ghost"
-                                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                                className="text-gray-600 hover:text-gray-900 cursor-pointer  dark:text-white dark:bg-red-700"
                                 onClick={signOut}
                             >
                                 Logout
                             </Button>
                         ) : (
                             <Link href="/auth/signin">
-                                <Button variant="ghost" className="text-gray-600 hover:text-gray-900 cursor-pointer">
+                                <Button variant="ghost" className="text-gray-600 hover:text-gray-900 cursor-pointer dark:text-white">
                                     Sign In
                                 </Button>
                             </Link>
                         )}
+                        <ThemeToggle />
                     </div>
                 </div>
             </div>

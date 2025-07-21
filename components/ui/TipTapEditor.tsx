@@ -27,7 +27,8 @@ export default function TiptapEditor({ value, onChange, placeholder }: TiptapEdi
     },
     editorProps: {
       attributes: {
-        class: "min-h-[150px] p-4 border rounded-md focus:outline-none bg-white prose prose-sm max-w-none",
+        class:
+          "min-h-[150px] p-4 border rounded-md focus:outline-none bg-white text-black dark:bg-gray-900 dark:text-gray-100 prose prose-sm max-w-none",
         placeholder: placeholder || "Start typing...",
       },
     }

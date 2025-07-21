@@ -44,7 +44,7 @@ export default function Page() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center  px-4">
+        <div className="min-h-screen flex items-center justify-center  px-4 dark:bg-gray-900">
             <form
                 onSubmit={handleSubmit}
                 className="space-y-4 p-6 w-full max-w-md border rounded shadow "
