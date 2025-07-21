@@ -108,7 +108,7 @@ export default function TemplateResumeBuilder({ resume, templateId }: TemplateRe
         console.log("resume ai used = ", resume.aiUsed);
         const isAIUsed = resume.aiUsed === true || resume.aiUsed === "true";
         if (!isAIUsed) {
-            router.push(`/api/resume/download/${resume.id}`)
+            router.push(`/api/resume/temp-download/${resume.id}`)
         } else {
             router.push(`/payment?type=download&resumeId=${resume.id}`)
         }

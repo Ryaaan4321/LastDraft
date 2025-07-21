@@ -144,7 +144,7 @@ export default function PaymentPage() {
                             toast.success("Payment successful!")
                             if (paymentType === "download") {
                                 if (paymentType === "download") {
-                                    window.open(`/api/resume/download/${resumeId}`, "_blank")
+                                    window.open(`/api/resume/temp-download/${resumeId}`, "_blank")
                                 }
                             } else if (paymentType === "ai_bullets") {
                                 router.push(`/resume/${resumeId}/aibullets`)
