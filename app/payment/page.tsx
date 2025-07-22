@@ -40,25 +40,25 @@ export default function PaymentPage() {
         }
         getUser()
     }, [])
-    useEffect(() => {
-        const checkifAlreadyPaid = async () => {
-            if (!user || !paymentType || !resumeId) return;
-            const res = await fetch('/api/payment/check', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resumeId, paymentType })
-            })
-            const data = await res.json();
-            if (data?.alreadyPaid) {
-                if (paymentType === "download") {
-                    window.open(`/api/resume/download/${resumeId}`, "_blank");
-                } else if (paymentType === "ai_bullets") {
-                    router.push(`/resume/${resumeId}/ai-bullets`);
-                }
-            }
-        }
-        if (user) checkifAlreadyPaid();
-    }, [user])
+    // useEffect(() => {
+    //     const checkifAlreadyPaid = async () => {
+    //         if (!user || !paymentType || !resumeId) return;
+    //         const res = await fetch('/api/payment/check', {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ resumeId, paymentType })
+    //         })
+    //         const data = await res.json();
+    //         if (data?.alreadyPaid) {
+    //             if (paymentType === "download") {
+    //                 window.open(`/api/resume/download/${resumeId}`, "_blank");
+    //             } else if (paymentType === "ai_bullets") {
+    //                 router.push(`/resume/${resumeId}/ai-bullets`);
+    //             }
+    //         }
+    //     }
+    //     if (user) checkifAlreadyPaid();
+    // }, [user])
     useEffect(() => {
         const script = document.createElement("script")
         script.src = "https://checkout.razorpay.com/v1/checkout.js"
@@ -91,6 +91,7 @@ export default function PaymentPage() {
     }
 
     const handlePayment = async () => {
+        console.log("handle payment got callleddddd")
         if (!user || !resumeId || !paymentType) return
         setLoading(true)
         try {
