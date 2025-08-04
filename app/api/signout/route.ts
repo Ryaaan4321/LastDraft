@@ -2,13 +2,12 @@ import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function POST() {
-    // Clear the token cookie
     const cookieStore = cookies()
     ;(await cookieStore).set({
         name: "token",
         value: "",
         path: "/",
-        maxAge: 0, // Expire the cookie
+        maxAge: 0, 
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
     })
